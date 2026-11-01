@@ -5,6 +5,27 @@
 [build.environment]
   NODE_VERSION = "22"
 
+# Korte lenker til hvert språk: skurtran.no/en → skurtran.no/?lang=en
+[[redirects]]
+  from = "/nb"
+  to = "/?lang=nb"
+  status = 302
+
+[[redirects]]
+  from = "/nn"
+  to = "/?lang=nn"
+  status = 302
+
+[[redirects]]
+  from = "/en"
+  to = "/?lang=en"
+  status = 302
+
+[[redirects]]
+  from = "/vi"
+  to = "/?lang=vi"
+  status = 302
+
 [[headers]]
   for = "/*"
   [headers.values]

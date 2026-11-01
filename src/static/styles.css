@@ -32,6 +32,13 @@
   --radius: 4px;
 }
 
+/* Iowan Old Style mangler en del vietnamesiske tegn, og da blandes skrifter
+   midt i ordene. Disse skriftene har dem. */
+:lang(vi) {
+  --skrift-display: 'Palatino Linotype', 'Book Antiqua', Georgia, 'Times New Roman',
+    'Noto Serif', serif;
+}
+
 /* ------------------------------------------------------------------- BASIS */
 
 *,
@@ -135,13 +142,17 @@ img {
 }
 
 .topplinje__innhold {
-  max-width: var(--bredde);
+  /* Litt bredere enn innholdet, så menyen og språkvalget får plass. */
+  max-width: 80rem;
   margin: 0 auto;
   padding: 0.9rem 1.5rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
+}
+
+.meny {
+  margin-left: auto;
 }
 
 .topplinje__navn {
@@ -155,13 +166,21 @@ img {
 
 .meny ul {
   display: flex;
-  gap: 1.6rem;
+  flex-wrap: wrap;
+  column-gap: 1.4rem;
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+/* Med JavaScript holdes menyen på én linje, så main.js kan måle om den får
+   plass. Uten JavaScript brytes den heller over flere linjer. */
+.har-js .meny ul {
+  flex-wrap: nowrap;
+}
+
 .meny__lenke {
+  white-space: nowrap;
   color: var(--blekk-dempet);
   text-decoration: none;
   font-size: 0.82rem;
@@ -176,6 +195,52 @@ img {
 .meny__lenke.er-aktiv {
   color: var(--blekk);
   border-bottom-color: var(--aksent);
+}
+
+/* --------------------------------------------------------------- SPRÅKVALG */
+
+.sprakvalg ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 1rem;
+  border-left: 1px solid var(--strek);
+}
+
+.sprakvalg__lenke {
+  display: block;
+  min-width: 2rem;
+  padding: 0.35rem 0.3rem;
+  text-align: center;
+  color: var(--blekk-dempet);
+  text-decoration: none;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  border-bottom: 1px solid transparent;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.sprakvalg__lenke:hover {
+  color: var(--blekk);
+}
+
+.sprakvalg__lenke[aria-current='true'] {
+  color: var(--blekk);
+  border-bottom-color: var(--aksent);
+}
+
+/* Mens språket byttes ved oppstart, skjules siden et øyeblikk. Skulle
+   main.js av en eller annen grunn ikke laste, vises den likevel etter
+   et par sekunder. */
+.sprak-venter #side {
+  visibility: hidden;
+  animation: vis-likevel 0s 2.5s forwards;
+}
+
+@keyframes vis-likevel {
+  to {
+    visibility: visible;
+  }
 }
 
 .meny__knapp {
@@ -234,46 +299,55 @@ img {
   opacity: 0;
 }
 
-@media (max-width: 52rem) {
-  .meny__knapp {
-    display: block;
-  }
+/* Kompakt topplinje med hamburgermeny. main.js slår den på når skjermen er
+   smal, eller når menyen ikke får plass – det varierer med språket. */
+.topplinje--kompakt .meny__knapp {
+  display: block;
+}
 
-  .meny {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    background: var(--bakgrunn);
-    border-bottom: 1px solid var(--strek);
-    display: none;
-  }
+.topplinje--kompakt .sprakvalg {
+  margin-left: auto;
+}
 
-  .meny.er-apen {
-    display: block;
-  }
+.topplinje--kompakt .sprakvalg ul {
+  border-left: 0;
+  padding-left: 0;
+}
 
-  .meny ul {
-    flex-direction: column;
-    gap: 0;
-    padding: 0.5rem 1.5rem 1.25rem;
-  }
+.topplinje--kompakt .meny {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: var(--bakgrunn);
+  border-bottom: 1px solid var(--strek);
+  display: none;
+}
 
-  .meny__lenke {
-    display: block;
-    padding: 0.7rem 0;
-    border-bottom: 1px solid var(--strek);
-    font-size: 0.85rem;
-  }
+.topplinje--kompakt .meny.er-apen {
+  display: block;
+}
 
-  .meny ul li:last-child .meny__lenke {
-    border-bottom: 0;
-  }
+.topplinje--kompakt .meny ul {
+  flex-direction: column;
+  gap: 0;
+  padding: 0.5rem 1.5rem 1.25rem;
+}
 
-  .meny__lenke.er-aktiv {
-    border-bottom-color: var(--strek);
-    color: var(--aksent-mork);
-  }
+.topplinje--kompakt .meny__lenke {
+  display: block;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid var(--strek);
+  font-size: 0.85rem;
+}
+
+.topplinje--kompakt .meny ul li:last-child .meny__lenke {
+  border-bottom: 0;
+}
+
+.topplinje--kompakt .meny__lenke.er-aktiv {
+  border-bottom-color: var(--strek);
+  color: var(--aksent-mork);
 }
 
 /* -------------------------------------------------------------------- HERO */
@@ -967,6 +1041,7 @@ img {
 
 @media print {
   .topplinje,
+  .sprakvalg,
   .nedtelling,
   .knapp,
   .skjema,

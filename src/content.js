@@ -8,6 +8,11 @@
  *
  * Alle seksjoner har et `vis`-felt. Sett det til `false` for å skjule
  * seksjonen helt – den forsvinner da også fra menyen.
+ *
+ * FLERE SPRÅK: Denne fila er bokmålsversjonen, og alt som er felles for alle
+ * språk (datoer, telefonnumre, kontonummer, lenker, skjema-IDer) står bare
+ * her. Oversettelsene ligger i src/sprak/ og inneholder kun teksten. Endrer du
+ * en tekst her, husk å endre den i oversettelsene også.
  * ------------------------------------------------------------------------- */
 
 export const innhold = {
@@ -15,7 +20,6 @@ export const innhold = {
   side: {
     domene: 'skurtran.no',
     url: 'https://skurtran.no',
-    sprak: 'nb',
     // Vises i fanen i nettleseren og når lenken deles.
     tittel: 'Kari & Ola – 12. juni 2027',
     beskrivelse:
@@ -272,7 +276,8 @@ export const innhold = {
       },
 
       // Disse tekstene MÅ være nøyaktig like alternativene i Google Skjema,
-      // ellers blir svaret forkastet av Google.
+      // ellers blir svaret forkastet av Google. De sendes alltid på norsk;
+      // på andre språk vises teksten fra `rsvp.alternativer` i src/sprak/.
       svar: {
         kommerJa: 'Ja, jeg kommer',
         kommerNei: 'Nei, jeg kan dessverre ikke',
@@ -324,6 +329,43 @@ export const innhold = {
       { navn: 'Ola', rolle: 'Brudgom', telefon: '900 00 001', epost: 'ola@example.com' },
       { navn: 'Per Persen', rolle: 'Toastmaster', telefon: '900 00 002', epost: '' },
     ],
+  },
+
+  /* ------------------------------------------------------------ SMÅTEKSTER */
+  // Knapper, skjemaetiketter, feilmeldinger og annen tekst rundt innholdet.
+  ui: {
+    hoppTilInnhold: 'Hopp til innhold',
+    meny: 'Meny',
+    hovedmeny: 'Hovedmeny',
+    sprakvalg: 'Velg språk',
+    nedtelling: {
+      dager: 'dager',
+      timer: 'timer',
+      minutter: 'minutter',
+      sekunder: 'sekunder',
+      ferdig: 'I dag er dagen! Vi gleder oss til å se dere.',
+    },
+    skjema: {
+      navn: 'Navn',
+      navnFeil: 'Fyll inn navnet ditt.',
+      epost: 'E-post',
+      epostFeil: 'Fyll inn en gyldig e-postadresse.',
+      kommer: 'Kommer du?',
+      kommerFeil: 'Velg ett alternativ.',
+      antall: 'Hvor mange er dere?',
+      allergier: 'Allergier eller matpreferanser',
+      allergierHjelp: 'F.eks. nøtteallergi, vegetar, glutenfri',
+      buss: 'Vil du sitte på bussen?',
+      melding: 'Melding til oss',
+      meldingHjelp: 'Sangønske, taleønske eller bare en hilsen',
+      send: 'Send påmelding',
+      sender: 'Sender …',
+      svarfrist: 'Svarfrist:',
+      sjekkFelt: 'Se over feltene som er merket.',
+      ikkeKoblet: 'Påmeldingen er ikke koblet opp ennå, så svaret ble ikke sendt.',
+      sendIgjen: 'Send inn et svar til',
+      skjultMottaker: 'Skjult mottaker for påmelding',
+    },
   },
 }
 

@@ -13,6 +13,7 @@ import { fileURLToPath } from 'node:url'
 
 import { innhold } from './src/content.js'
 import { lagHtml } from './src/template.js'
+import { sprak, innholdFor, finnUlikeLister } from './src/sprak/index.js'
 
 const rot = dirname(fileURLToPath(import.meta.url))
 const dist = join(rot, 'dist')
@@ -46,6 +47,16 @@ function sjekkInnhold() {
     )
   }
 
+  // Lister som er ulikt lange gir oversettelser som ikke passer sammen.
+  for (const s of sprak.slice(1)) {
+    for (const funn of finnUlikeLister(innhold, s.tekster)) {
+      advarsler.push(
+        `${s.navn}: lista ${funn} har ikke like mange punkter som på bokmål. ` +
+          'Punktene slås sammen etter plassering, så de kan ha forskjøvet seg.',
+      )
+    }
+  }
+
   return advarsler
 }
 
@@ -56,7 +67,8 @@ async function bygg() {
   // Kopier alt som ligger i src/static/ rett inn i utdatamappa.
   await cp(statisk, midlertidig, { recursive: true })
 
-  await writeFile(join(midlertidig, 'index.html'), lagHtml(innhold), 'utf8')
+  const versjoner = sprak.map((s) => ({ sprak: s, innhold: innholdFor(s.kode) }))
+  await writeFile(join(midlertidig, 'index.html'), lagHtml(versjoner), 'utf8')
 
   const url = String(innhold.side.url || '').replace(/\/$/, '')
 
