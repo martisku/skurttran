@@ -63,6 +63,15 @@ await bygg()
 createServer(async (forespørsel, svar) => {
   // normalize() hindrer at «../» i URLen slipper ut av dist/.
   const sti = decodeURIComponent(new URL(forespørsel.url, 'http://localhost').pathname)
+
+  // Korte lenker til hvert språk, som på Vercel/Netlify: /en → /?lang=en
+  const kortlenke = sti.match(/^\/(nb|nn|en|vi)\/?$/)
+  if (kortlenke) {
+    svar.writeHead(302, { location: `/?lang=${kortlenke[1]}` })
+    svar.end()
+    return
+  }
+
   let fil = join(dist, normalize(sti).replace(/^(\.\.[/\\])+/, ''))
 
   try {
