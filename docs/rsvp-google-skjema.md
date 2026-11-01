@@ -32,6 +32,11 @@ Legg inn nøyaktig disse sju spørsmålene, i denne rekkefølgen:
 > Teksten på flervalgs-alternativene må skrives helt likt både her og i
 > `src/content.js`. Er det minste avvik – en ekstra mellomrom, stor forbokstav
 > – forkaster Google svaret uten å si fra.
+>
+> Skjemaet trenger bare finnes på norsk. Gjester som ser siden på et annet
+> språk, får alternativene oversatt på skjermen, men det er de norske
+> verdiene som sendes inn. Oversettelsene endres i `rsvp.alternativer` i
+> `src/sprak/`.
 
 ---
 
